@@ -1,9 +1,9 @@
 package com.bvc.app.service;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bvc.app.entity.Campaign;
-import com.bvc.app.entity.SummaryCampaign;
-import com.bvc.app.helpers.ConexionDb;
+
+
 import com.bvc.app.repository.CampaignRepository;
 
 
@@ -63,98 +63,42 @@ public class CampaignServiceImpl implements CampaignService {
 		
 		campaignRepository.deleteById(id);
 	}
-	 //mayor a menor
+	
 	@Transactional(readOnly = true)
-	public void serchColunmMayorAmenor(String column) {
-		ConexionDb conex = new ConexionDb();
-		SummaryCampaign Scampaign = null;
-		ResultSet res = null;
-		try {
-			
-			PreparedStatement consult = conex.getConnection().prepareStatement("SELECT name, "+column+" FROM campaign ORDER BY "+column+" DESC;");
-			consult.setString(1, column);
-			consult.setString(2, column);
-			res = consult.executeQuery();
-			if(column.equalsIgnoreCase("amount")) {
-				Scampaign.setNmount((Collection<String>) res.getArray(column));
-				data = "amount";
-			}else if(column.equalsIgnoreCase("requestedAmount")) {
-				Scampaign.setNrequestedAmount((Collection<String>) res.getArray(column));
-				data = "requestedAmount";
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-		
-			try {
-				conex.getConnection().close();
-				if (res != null)
-					res.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		}
-		
-	}
-	// menor a mayor
-	@Transactional(readOnly = true)
-	public void serchColunmMenorAmayor(String column) {
-		ConexionDb conex = new ConexionDb();
-		SummaryCampaign Scampaign = null;
-		ResultSet res = null;
-		try {
-			
-			PreparedStatement consult = conex.getConnection().prepareStatement("SELECT name, "+column+" FROM campaign ORDER BY "+column+" ASC;");
-			consult.setString(1, column);
-			consult.setString(2, column);
-			res = consult.executeQuery();
-			if(column.equalsIgnoreCase("amount")) {
-				Scampaign.setNmount((Collection<String>) res.getArray(column));
-				data = "amount";
-			}else if(column.equalsIgnoreCase("requestedAmount")) {
-				Scampaign.setNrequestedAmount((Collection<String>) res.getArray(column));
-				data = "requestedAmount";
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-		
-			try {
-				conex.getConnection().close();
-				if (res != null)
-					res.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		}
-		
+    public List<Campaign> descendentRequestedAmount() throws Exception{
+		campaignRepository.RequestedamountDESC();
+		List<Campaign> inst = campaignRepository.RequestedamountDESC();
+		return inst;
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<String> returnList(String typeOrder) throws Exception {
-        
-		if((typeOrder.equalsIgnoreCase("mayor-menor")) && (data == "amount")) {
-			order = SummaryCampaign.getNmount();
-		}else if((typeOrder.equalsIgnoreCase("mayor-menor")) && (data == "requestedAmount")) {
-			order = SummaryCampaign.getNrequestedAmount();	
-		}else if((typeOrder.equalsIgnoreCase("menor-mayor"))&& (data == "amount")) {
-			order = SummaryCampaign.getNmount();
-		}else if((typeOrder.equalsIgnoreCase("menor-mayor"))&& (data == "requestedAmount")) {
-			order = SummaryCampaign.getNrequestedAmount();
-		}else {
-			throw new Exception("Ingrese un orden valido "+ typeOrder);
-		}
-		return order;
+	public List<Campaign> descendentAmount () throws Exception {
+		campaignRepository.amountDESC();
+		List<Campaign> inst = campaignRepository.amountDESC();
+		return inst;
 	}
 	
 	
+	@Transactional(readOnly = true)
+    public List<Campaign> ascendentRequestedAmount() throws Exception{
+		campaignRepository.RequestedamountASC();
+		List<Campaign> inst = campaignRepository.RequestedamountASC();
+		return inst;
+	}
+	
 
-	
-	
+	@Transactional(readOnly = true)
+	public List<Campaign> ascendentAmount () throws Exception{
+		campaignRepository.amountASC();
+		List<Campaign> inst = campaignRepository.amountASC();
+		/*Collection<String> res = new ArrayList();
+		while(inst.listIterator().hasNext() == true) {
+			String resp = inst.listIterator().next().getName();
+			res.add(resp);} 
+		
+		SummaryCampaign.setNmount(res);*/ //se esta desarrollando en las consultas solo muestre un elemento y no todo la fila de la db.
+		return inst;
+	}
 	
 
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bvc.app.entity.Campaign;
+import com.bvc.app.entity.SummaryCampaign;
 import com.bvc.app.service.CampaignService;
 
 @RestController
@@ -75,7 +76,7 @@ public class CampaignControlller {
     }
     
     // Read all campaigns
-    @GetMapping
+    @GetMapping("/all/")
     public List<Campaign> readAll(){
     	List<Campaign> campaigns = StreamSupport
     			.stream(campaignService.findAll().spliterator(), false)
@@ -85,32 +86,40 @@ public class CampaignControlller {
     }
 
     @GetMapping("/amount/{order}")
-    public Collection<String> readOrderedColunm(@PathVariable String order){
-    	Collection<String> result = null;
+    public List<Campaign> OrderAmount(@PathVariable String order){
+    	List<Campaign> result = null;
     	try {
-    		campaignService.serchColunmMenorAmayor("amount");
-    		result = campaignService.returnList(order);
+    		if(order.equalsIgnoreCase("mayor-menor")){
+    			result = campaignService.descendentAmount();
+    		
+    			
+    		}else if(order.equalsIgnoreCase("menor-mayor")) {
+    			result = campaignService.ascendentAmount();
+    			
+    		}
 		} catch (Exception e) {
 		  e.printStackTrace();
 		}
-      return result;
+    	return result;
     }
     
     @GetMapping("/requestedAmount/{order}")
-    public Collection<String> readOrderedColunm2(@PathVariable String order){
-    	Collection<String> result2 = null;
+    public Collection<Campaign> OrderRequesAmount(@PathVariable String order){
+    	Collection<Campaign> result2 = null;
     	try {
-    		campaignService.serchColunmMenorAmayor("requestedAmount");
-    		result2 = campaignService.returnList(order);
+    		if(order.equalsIgnoreCase("mayor-menor")){
+    			result2 = campaignService.descendentRequestedAmount();
+    			
+    			
+    		}else if(order.equalsIgnoreCase("menor-mayor")) {
+    			result2 = campaignService.ascendentRequestedAmount();
+    			
+    		}
 		} catch (Exception e) {
 		  e.printStackTrace();
 		}
-
-      return result2;
+    	return result2;
     }
     
-    
-    
-   
     
 }

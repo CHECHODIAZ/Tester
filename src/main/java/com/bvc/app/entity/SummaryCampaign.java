@@ -1,14 +1,16 @@
 package com.bvc.app.entity;
 
-import java.sql.Array;
+
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 
 
 
-public class SummaryCampaign extends Campaign {
+
+public class SummaryCampaign  {
 	
 	private static Collection<String> Nmount;
 	
@@ -18,15 +20,12 @@ public class SummaryCampaign extends Campaign {
 	
 	
 
-	public SummaryCampaign(Array array) {
-		
-	}
-
 	public static Collection<String> getNmount() {
 		return Nmount;
 	}
 
 	public static void setNmount(Collection<String> string) {
+		
 		Nmount = string;
 	}
 

@@ -13,19 +13,26 @@ import javax.persistence.Table;
 @Table(name = "campaign")
 public class Campaign implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="idcampaign", nullable=false, unique = true)
 	private Long id;
 	
-	@Column(nullable=false, length = 200)
-	private String name;
+	@Column(name="name", nullable=false, length = 200)
+	private String Name;
 	
-	@Column(nullable=false, length = 20)
-	private Double amount;
 	
-	@Column(nullable=false, length = 20)
-	private Double requestedAmount;
+	@Column(name="amount",nullable=false, length = 20)
+	private Double Amount;
+	
+	
+	@Column(name="requestedAmount", nullable=false, length = 20)
+	private Double Requestedamount;
     
 	@Column(nullable=true, length = 20)
 	private Double adminRate;
@@ -39,27 +46,27 @@ public class Campaign implements Serializable{
 	}
 
 	public String getName() {
-		return name;
+		return Name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.Name = name;
 	}
 
 	public Double getAmount() {
-		return amount;
+		return Amount;
 	}
 
 	public void setAmount(Double amount) {
-		this.amount = amount;
+		this.Amount = amount;
 	}
 
 	public Double getRequestedAmount() {
-		return requestedAmount;
+		return Requestedamount;
 	}
 
 	public void setRequestedAmount(Double requestedAmount) {
-		this.requestedAmount = requestedAmount;
+		this.Requestedamount = requestedAmount;
 	}
 
 	public Double getAdminRate() {

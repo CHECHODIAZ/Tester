@@ -1,6 +1,6 @@
 package com.bvc.app.service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -12,18 +12,20 @@ public interface CampaignService {
 	
 	public Iterable<Campaign> findAll();
 	
-	public Page<Campaign> findAll(Pageable pageable);
+	public Page<Campaign> findAll(Pageable pageable);   //It will be implement with a front framework end
 	
-	public Optional<Campaign> findById(Long id);
+	public Optional<Campaign> findById(Long id);  
 	
 	public Campaign save(Campaign campaign);
 	
 	public void deleteById(Long id);
 	
-	public void serchColunmMenorAmayor(String column);
+	public List<Campaign> descendentRequestedAmount() throws Exception;
 	
-	public void serchColunmMayorAmenor(String column);
-
-	public Collection<String>returnList(String typeOrder) throws Exception;
-
+	public List<Campaign> descendentAmount () throws Exception;
+	
+	public List<Campaign> ascendentRequestedAmount() throws Exception;
+	 
+	public List<Campaign> ascendentAmount () throws Exception;
+	
 }
